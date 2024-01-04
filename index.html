@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="description" content="Mary's simple recipe for maple bacon donuts
+                   makes a sticky, sweet treat with just a hint
+                   of salt that you'll keep coming back for.">
+    <title>Art Studio</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+            text-decoration: none;
+            list-style: none;
+        }
+
+        header {
+            position: sticky;
+            background: darkviolet;
+            top: 0;
+            width: 100%;
+            z-index: 1;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 15px;
+        }
+
+        .logo {
+            flex: 1;
+            background-repeat: no-repeat;
+            background-image: url("data:image/svg+xml;base64, PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj4KICA8cGF0aCBkPSJNMjUsN2wyOCwzNmw0MC0xOGwtMzYsMjVsMTksNDRsLTI3LTM3bC00MSwxN2wzNi0yNnoiIGZpbGw9IiNjZmMiLz4KICA8ZWxsaXBzZSBjeD0iNTAiIGN5PSI1MCIgcng9IjMyIiByeT0iMzAiIHN0cm9rZT0iI2ZjMCIgZmlsbD0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIxMSIvPgogIDxwYXRoIGQ9Ik02MywybC03LDQzbDQyLDE3bC00NS02bC0xNiw0Mmw3LC00NWwtNDItMTZsNDUsNnoiIGZpbGw9IiMzY2MiLz4KPC9zdmc+Cg==");
+        }
+
+        .logos {
+            color: white;
+            display: flex;
+            place-content: space-around;
+        }
+
+        .menu {
+            flex: 4;
+            display: flex;
+            justify-content: space-evenly;
+            align-items: center;
+        }
+
+        .menu a {
+            display: block;
+            color: #fff;
+        }
+
+        .menu-toggle-label,
+        #menu-toggle {
+            display: none;
+        }
+
+        #menu-toggle:checked~.menu {
+            transform: scale(1, 1);
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: darkviolet;
+            z-index: 1;
+        }
+
+        .dropdown-content a {
+            color: greenyellow;
+            display: block;
+        }
+
+        .dropdown-content a:hover {
+            background-color: black;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .search-box>input[type="text"] {
+            background: white;
+            padding: 0.5rem;
+            border-radius: 1rem;
+        }
+
+        @media only screen and (max-width: 650px) {
+            .menu {
+                flex-direction: column;
+                background-color: darkorchid;
+                position: absolute;
+                top: 50px;
+                left: 0;
+                width: 100%;
+                z-index: 1;
+                transform: scale(1, 0);
+                transform-origin: top;
+                transition: transform 0.3s ease-in-out;
+            }
+
+            .menu-toggle-label {
+                display: block;
+                color: #fff;
+            }
+        }
+
+        main {
+            display: grid;
+            place-items: center;
+            position: relative;
+        }
+
+        .carousel-wrapper {
+            position: relative;
+            max-height: 70vh;
+            max-width: 70vw;
+            height: auto;
+            display: grid;
+            grid-template-rows: 4fr 1fr;
+            grid-gap: 10px;
+        }
+
+        .carousel-items {
+            display: flex;
+            overflow-x: scroll;
+            overflow-y: hidden;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+        }
+
+        .carousel-item {
+            scroll-snap-align: start;
+            flex: 1 0 100%;
+            transition: all 0.5s;
+            object-fit: contain;
+            max-width: 100%;
+            max-height: 100%;
+            width: auto;
+            height: auto;
+        }
+
+        .slider-page {
+            position: relative;
+            top: 0;
+            left: 0;
+            display: flex;
+            overflow-x: scroll;
+            scroll-behavior: smooth;
+            scroll-snap-type: x mandatory;
+            overflow-y: hidden;
+            grid-row-start: 2;
+        }
+
+        .slider-page>a {
+            scroll-snap-align: start;
+            position: relative;
+            flex: 1 1 0;
+            margin: 0 0.12rem 0 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0;
+        }
+
+        .thumb {
+            object-fit: cover;
+            filter: saturate(0);
+            transition: 0.3s ease all;
+            max-width: 100%;
+            max-height: 100%;
+            width: auto;
+            height: auto;
+        }
+
+        .thumb:hover {
+            transform: scale(1.05);
+            filter: saturate(1);
+        }
+
+        .btn {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            padding: 10px;
+            border: none;
+            border-radius: 50%;
+            z-index: 10px;
+            cursor: pointer;
+            background-color: #fff;
+            font-size: 18px;
+        }
+
+        .bx-prev {
+            top: 25%;
+            left: 5%;
+        }
+
+        .bx-next {
+            top: 25%;
+            right: 5%;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <nav id="explore">
+            <a href="#" class="logo">
+                <h1 class="logos">Art Std</h1>
+            </a>
+            <input type="checkbox" id="menu-toggle" class="menu-toggle">
+            <label for="menu-toggle" class="menu-toggle-label">&#9776;</label>
+            <ul class="menu">
+                <li><a href="#">Home</a></li>
+                <li><a href="#">About</a></li>
+                <li class="dropdown">
+                    <a class="dropdown-trigger" href="javascript:void(0)">Blog</a>
+                    <div class="dropdown-content">
+                        <a href="#">blog entry</a>
+                        <a href="#">blog entry</a>
+                        <a href="#">blog entry</a>
+                    </div>
+                </li>
+                <li><a href="#">Admin</a></li>
+                <li class="divider">
+                    <div class="search-box">
+                        <input type="text" placeholder="Search">
+                    </div>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <!-- <dialog class="border border-primary bg-secondary text-primary w-fit max-w-screen-sm"> -->
+        <!-- <article>
+            se dialo<br>
+            se dialo<br>
+            se dialo<br>
+            se dialo<br>
+            se dialo<br>
+            se dialo
+        </article> -->
+        <article class="carousel-wrapper">
+            <div class="carousel-items">
+                <img id="slide-1" class="carousel-item"
+                    src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/14179/kenan-sulayman-FV3M7igu8Fs-unsplash.jpg"
+                    alt="Asel1">
+                <img id="slide-2" class="carousel-item"
+                    src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/14179/anastasia-dulgier-NCFTGtjY3EQ-unsplash.jpg"
+                    alt="Asel2">
+                <img id="slide-3" class="carousel-item"
+                    src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/14179/arnaud-mariat-IPXcUYHeErc-unsplash.jpg"
+                    alt="Asel3">
+                <img id="slide-4" class="carousel-item"
+                    src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/14179/jakob-owens-EkxOtUljwhs-unsplash.jpg"
+                    alt="Asel4">
+            </div>
+            <nav class="slider-page">
+                <a href="#slide-1" id="thumb-1">
+                    <img class="thumb"
+                        src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/14179/kenan-sulayman-FV3M7igu8Fs-unsplash.jpg"
+                        alt="Asel4"> </a>
+                <a href="#slide-2" id="thumb-2">
+                    <img class="thumb"
+                        src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/14179/anastasia-dulgier-NCFTGtjY3EQ-unsplash.jpg"
+                        alt="Asel4">
+                </a>
+                <a href="#slide-3" id="thumb-3">
+                    <img class="thumb"
+                        src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/14179/arnaud-mariat-IPXcUYHeErc-unsplash.jpg"
+                        alt="Asel4">
+                </a>
+                <a href="#slide-4" id="thumb-4">
+                    <img class="thumb"
+                        src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/14179/jakob-owens-EkxOtUljwhs-unsplash.jpg"
+                        alt="Asel4">
+                </a>
+            </nav>
+            <button class="btn bx-prev">Prev</button>
+            <button class="btn bx-next">Next</button>
+        </article>
+        <!-- <button>close dialog</button> -->
+        <!-- </dialog> -->
+        <!-- <button>open dialog</button> -->
+    </main>
+</body>
+
+</html>
